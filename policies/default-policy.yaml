@@ -1,0 +1,212 @@
+# Default Brand Governance Policy
+# Applied to all exports unless overridden by brand/market/channel overlays.
+
+setId: "default"
+name: "Default Brand Governance Policy"
+description: "Base policy set applied to all exports"
+version: "1.0.0"
+
+rules:
+
+  # ── Dimensions ────────────────────────────────────────────
+
+  - ruleId: "dim.min_dpi"
+    name: "Minimum DPI for Channel"
+    description: "Exports must meet the minimum DPI for their target channel"
+    category: "dimensions"
+    severity: "hard"
+    action: "reject"
+    enabled: true
+    weight: 0.8
+    scope:
+      brands: []
+      markets: []
+      channels: []
+      formats: []
+      applications: []
+    params:
+      minDpiByChannel:
+        print: 300
+        ooh: 150
+        web: 72
+        paid_social: 72
+        email: 72
+        default: 72
+
+  # ── File Specs ────────────────────────────────────────────
+
+  - ruleId: "file.max_size"
+    name: "Maximum File Size"
+    description: "Exports must not exceed the channel-specific file size limit"
+    category: "file_specs"
+    severity: "soft"
+    action: "escalate"
+    enabled: true
+    weight: 0.3
+    scope:
+      brands: []
+      markets: []
+      channels: []
+      formats: []
+      applications: []
+    params:
+      maxSizeByChannel:
+        web: 5242880
+        paid_social: 10485760
+        email: 2097152
+        print: 524288000
+        ooh: 524288000
+        default: 52428800
+
+  - ruleId: "file.color_mode"
+    name: "Color Mode by Channel"
+    description: "Print must be CMYK, digital must be RGB"
+    category: "file_specs"
+    severity: "soft"
+    action: "escalate"
+    enabled: true
+    weight: 0.5
+    scope:
+      brands: []
+      markets: []
+      channels: []
+      formats: []
+      applications: []
+    params:
+      requiredModeByChannel:
+        print: "CMYK"
+        ooh: "CMYK"
+        web: "RGB"
+        paid_social: "RGB"
+        email: "RGB"
+
+  # ── Color Palette ─────────────────────────────────────────
+
+  - ruleId: "color.palette_compliance"
+    name: "Brand Color Compliance"
+    description: "All colors must be within delta-E threshold of the brand palette"
+    category: "color_palette"
+    severity: "soft"
+    action: "auto_fix"
+    enabled: true
+    weight: 0.7
+    scope:
+      brands: []
+      markets: []
+      channels: []
+      formats: []
+      applications: []
+    params:
+      maxDeltaE: 3.0
+      ignoreBlackWhite: true
+
+  # ── Logo ──────────────────────────────────────────────────
+
+  - ruleId: "logo.version_current"
+    name: "Current Logo Version"
+    description: "Only the current approved logo version may be used"
+    category: "logo_compliance"
+    severity: "hard"
+    action: "reject"
+    enabled: true
+    weight: 1.0
+    scope:
+      brands: []
+      markets: []
+      channels: []
+      formats: []
+      applications: []
+    params:
+      checkVersion: true
+      checkStatus: true
+
+  - ruleId: "logo.market_allowed"
+    name: "Logo Market Restrictions"
+    description: "Logo variant must be approved for the target market"
+    category: "logo_compliance"
+    severity: "hard"
+    action: "reject"
+    enabled: true
+    weight: 1.0
+    scope:
+      brands: []
+      markets: []
+      channels: []
+      formats: []
+      applications: []
+    params:
+      checkMarketAllowed: true
+
+  # ── Disclaimers ───────────────────────────────────────────
+
+  - ruleId: "disclaimer.required_present"
+    name: "Required Disclaimers Present"
+    description: "All market-required disclaimers must be present in the export"
+    category: "disclaimer"
+    severity: "hard"
+    action: "auto_fix"
+    enabled: true
+    weight: 1.0
+    scope:
+      brands: []
+      markets: []
+      channels: ["print", "web", "paid_social", "email"]
+      formats: []
+      applications: []
+    params:
+      checkPresence: true
+      checkVersion: true
+
+  - ruleId: "disclaimer.market_match"
+    name: "Disclaimer Market Match"
+    description: "Disclaimers must match the target market locale"
+    category: "disclaimer"
+    severity: "hard"
+    action: "reject"
+    enabled: true
+    weight: 1.0
+    scope:
+      brands: []
+      markets: []
+      channels: []
+      formats: []
+      applications: []
+    params:
+      checkMarketMatch: true
+
+  # ── Typography ────────────────────────────────────────────
+
+  - ruleId: "typo.approved_fonts"
+    name: "Approved Font Families"
+    description: "Only approved brand typefaces may be used"
+    category: "typography"
+    severity: "soft"
+    action: "auto_fix"
+    enabled: true
+    weight: 0.6
+    scope:
+      brands: []
+      markets: []
+      channels: []
+      formats: []
+      applications: []
+    params:
+      strictMatch: false
+
+  - ruleId: "typo.min_size"
+    name: "Minimum Font Size"
+    description: "Disclaimer text must meet minimum readable size"
+    category: "typography"
+    severity: "soft"
+    action: "escalate"
+    enabled: true
+    weight: 0.5
+    scope:
+      brands: []
+      markets: []
+      channels: []
+      formats: []
+      applications: []
+    params:
+      minDisclaimerSizePt: 6
+      minBodySizePt: 8

@@ -1,0 +1,45 @@
+# US Market Policy Overlay
+# Adds FDA, FTC, and US-specific compliance rules.
+
+setId: "market-us"
+name: "US Market Policy"
+description: "US-specific governance rules"
+version: "1.0.0"
+
+rules:
+
+  - ruleId: "disclaimer.fda_required"
+    name: "FDA Disclaimer Required"
+    description: "FDA-required disclaimers must be present for regulated product categories"
+    category: "disclaimer"
+    severity: "hard"
+    action: "reject"
+    enabled: true
+    weight: 1.0
+    scope:
+      brands: []
+      markets: ["US"]
+      channels: []
+      formats: []
+      applications: []
+    params:
+      requiredDisclaimerTypes: ["fda_general", "fda_nutrition"]
+      checkPresence: true
+
+  - ruleId: "claims.ftc_compliance"
+    name: "FTC Claims Compliance"
+    description: "Marketing claims must comply with FTC advertising guidelines"
+    category: "claims_review"
+    severity: "hard"
+    action: "escalate"
+    enabled: true
+    weight: 1.0
+    scope:
+      brands: []
+      markets: ["US"]
+      channels: []
+      formats: []
+      applications: []
+    params:
+      flagSuperlatives: true
+      flagUnsubstantiated: true

@@ -1,0 +1,45 @@
+# EU Market Policy Overlay
+# Adds GDPR-related, EU consumer protection, and multilingual requirements.
+
+setId: "market-eu"
+name: "EU Market Policy"
+description: "EU-specific governance rules"
+version: "1.0.0"
+
+rules:
+
+  - ruleId: "disclaimer.eu_consumer"
+    name: "EU Consumer Rights Disclaimer"
+    description: "EU consumer protection disclaimers must be present"
+    category: "disclaimer"
+    severity: "hard"
+    action: "reject"
+    enabled: true
+    weight: 1.0
+    scope:
+      brands: []
+      markets: ["DE", "FR", "IT", "ES", "NL", "BE", "AT", "IE", "PT", "SE", "DK", "FI", "PL"]
+      channels: ["web", "paid_social", "email"]
+      formats: []
+      applications: []
+    params:
+      requiredDisclaimerTypes: ["eu_consumer_rights", "gdpr_notice"]
+      checkPresence: true
+
+  - ruleId: "typo.min_size_eu"
+    name: "EU Minimum Disclaimer Size"
+    description: "EU regulations require larger minimum disclaimer text"
+    category: "typography"
+    severity: "hard"
+    action: "escalate"
+    enabled: true
+    weight: 0.8
+    scope:
+      brands: []
+      markets: ["DE", "FR", "IT", "ES", "NL", "BE", "AT", "IE", "PT", "SE", "DK", "FI", "PL"]
+      channels: []
+      formats: []
+      applications: []
+    params:
+      minDisclaimerSizePt: 7
+      minBodySizePt: 9

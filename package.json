@@ -1,0 +1,24 @@
+{
+  "name": "@brand-governance/root",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI Brand Governance Agent — real-time brand enforcement layer",
+  "workspaces": [
+    "packages/shared",
+    "packages/engine",
+    "packages/qa-rules",
+    "packages/auto-fix",
+    "packages/integrations",
+    "packages/server"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "dev": "npm run dev --workspace=@brand-governance/server",
+    "clean": "rm -rf packages/*/dist"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

@@ -1,0 +1,43 @@
+# Print Channel Policy Overlay
+# Stricter requirements for physical production.
+
+setId: "channel-print"
+name: "Print Channel Policy"
+description: "Print-specific governance rules"
+version: "1.0.0"
+
+rules:
+
+  - ruleId: "dim.bleed_required"
+    name: "Bleed Required for Print"
+    description: "Print exports must include bleed area"
+    category: "dimensions"
+    severity: "soft"
+    action: "escalate"
+    enabled: true
+    weight: 0.6
+    scope:
+      brands: []
+      markets: []
+      channels: ["print"]
+      formats: ["pdf", "tiff", "eps"]
+      applications: []
+    params:
+      minBleedPt: 9  # 3mm = ~8.5pt
+
+  - ruleId: "file.print_format"
+    name: "Print-Safe Format"
+    description: "Print exports must use PDF, TIFF, or EPS format"
+    category: "file_specs"
+    severity: "hard"
+    action: "reject"
+    enabled: true
+    weight: 0.7
+    scope:
+      brands: []
+      markets: []
+      channels: ["print"]
+      formats: []
+      applications: []
+    params:
+      allowedFormats: ["pdf", "tiff", "eps"]

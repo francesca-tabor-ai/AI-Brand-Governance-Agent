@@ -1,0 +1,44 @@
+# Digital Channel Policy Overlay
+# Web, social, and email-specific rules.
+
+setId: "channel-digital"
+name: "Digital Channel Policy"
+description: "Digital-specific governance rules"
+version: "1.0.0"
+
+rules:
+
+  - ruleId: "file.digital_format"
+    name: "Digital-Safe Format"
+    description: "Digital exports must use web-compatible formats"
+    category: "file_specs"
+    severity: "soft"
+    action: "escalate"
+    enabled: true
+    weight: 0.5
+    scope:
+      brands: []
+      markets: []
+      channels: ["web", "paid_social", "email"]
+      formats: []
+      applications: []
+    params:
+      allowedFormats: ["png", "jpg", "svg", "gif", "webp"]
+
+  - ruleId: "dim.max_digital_dimensions"
+    name: "Maximum Digital Dimensions"
+    description: "Digital assets should not exceed platform dimension limits"
+    category: "dimensions"
+    severity: "soft"
+    action: "escalate"
+    enabled: true
+    weight: 0.4
+    scope:
+      brands: []
+      markets: []
+      channels: ["web", "paid_social", "email"]
+      formats: []
+      applications: []
+    params:
+      maxWidthPx: 4096
+      maxHeightPx: 4096
